@@ -4,7 +4,7 @@ USE Cybersecurity_Log;
 
 -- Tables
 CREATE TABLE Asset_Identity(
-    AssetID VARCHAR(50) PRIMARY KEY,
+    AssetID VARCHAR(50) PRIMARY KEY NOT NULL,
     LifecycleState VARCHAR(50) NOT NULL,
     AssetLabel VARCHAR(50),
     AssetType VARCHAR(50) DEFAULT 'Workstation',
@@ -14,7 +14,7 @@ CREATE TABLE Asset_Identity(
 );
 
 CREATE TABLE Incident(
-    IncidentID VARCHAR(50) PRIMARY KEY,
+    IncidentID VARCHAR(50) PRIMARY KEY NOT NULL,
     CreatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     ReportedBySource VARCHAR(100) NOT NULL,
     Status VARCHAR(50) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE Alert_Event(
 );
 
 CREATE TABLE Response_Action(
-    ActionID VARCHAR(50) PRIMARY KEY,
+    ActionID VARCHAR(50) PRIMARY KEY NOT NULL,
     Owner VARCHAR(50) NOT NULL,
     DueDate DATETIME,
     Status VARCHAR(50) DEFAULT 'Open',
@@ -70,7 +70,7 @@ CREATE TABLE Response_Action(
 );
 
 CREATE TABLE Evidence(
-    EvidenceID VARCHAR(50) PRIMARY KEY,
+    EvidenceID VARCHAR(50) PRIMARY KEY NOT NULL,
     StorageLocation VARCHAR(255) NOT NULL,
     CollectedBy VARCHAR(50),
     CollectedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
