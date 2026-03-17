@@ -4,7 +4,7 @@ USE Cybersecurity_Log;
 
 -- Tables
 CREATE TABLE Asset_Identity(
-    AssetID VARCHAR(50) PRIMARY KEY NOT NULL,
+    AssetID VARCHAR(50) PRIMARY KEY,
     LifecycleState VARCHAR(50) NOT NULL,
     AssetLabel VARCHAR(50),
     AssetType VARCHAR(50) DEFAULT 'Workstation',
@@ -14,7 +14,7 @@ CREATE TABLE Asset_Identity(
 );
 
 CREATE TABLE Incident(
-    IncidentID VARCHAR(50) PRIMARY KEY NOT NULL,
+    IncidentID VARCHAR(50) PRIMARY KEY,
     CreatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     ReportedBySource VARCHAR(100) NOT NULL,
     Status VARCHAR(50) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE Alert_Event(
 );
 
 CREATE TABLE Response_Action(
-    ActionID VARCHAR(50) PRIMARY KEY NOT NULL,
+    ActionID VARCHAR(50) PRIMARY KEY,
     Owner VARCHAR(50) NOT NULL,
     DueDate DATETIME,
     Status VARCHAR(50) DEFAULT 'Open',
@@ -70,7 +70,7 @@ CREATE TABLE Response_Action(
 );
 
 CREATE TABLE Evidence(
-    EvidenceID VARCHAR(50) PRIMARY KEY NOT NULL,
+    EvidenceID VARCHAR(50) PRIMARY KEY,
     StorageLocation VARCHAR(255) NOT NULL,
     CollectedBy VARCHAR(50),
     CollectedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -175,3 +175,14 @@ INSERT INTO Evidence (EvidenceID, StorageLocation, CollectedBy, IntegrityHash, I
 -- Select statements
 SELECT * FROM Incident;
 SELECT * FROM IOC;
+
+-- Query 1
+SELECT Owner FROM Response_Action WHERE IncidentID = 'INC-2026-007';
+-- Query 2
+SELECT IOCType FROM IOC WHERE IncidentID = 'INC-2026-003';
+-- Query 3
+SELECT i.Status FROM Incident i JOIN Alert_Event a ON i.IncidentID = a.IncidentID WHERE DATE(a.EventTimestamp) = CURRENT_DATE AND a.SourceSystem = 'Suricata';
+-- Query 4
+SELECT i.ParentIncidentID  FROM Incident i JOIN Alert_Event a ON i.IncidentID = a.IncidentID WHERE a.SourceSystem = 'EDR_Alert' AND i.ParentIncidentID IS NOT NULL;
+-- Query 5
+SELECT ioc.IOCType FROM IOC ioc JOIN Incident i ON ioc.IncidentID = i.IncidentID WHERE i.Status = 'In Progress'  AND i.Severity = 'Medium';
