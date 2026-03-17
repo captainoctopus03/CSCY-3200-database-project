@@ -172,10 +172,6 @@ INSERT INTO Evidence (EvidenceID, StorageLocation, CollectedBy, IntegrityHash, I
 ('EV-009', '/mnt/san/forensics/process_list.txt', 'Admin_Dan', 'HASH_009_UVW', 'INC-2026-009'),
 ('EV-010', 'S3://bucket/malware_sample.exe', 'Sec_Analyst_B', 'HASH_010_123', 'INC-2026-005');
 
--- Select statements
-SELECT * FROM Incident;
-SELECT * FROM IOC;
-
 -- Query 1
 SELECT Owner FROM Response_Action WHERE IncidentID = 'INC-2026-007';
 -- Query 2
